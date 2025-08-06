@@ -1,11 +1,15 @@
+import type { Note } from "../../../Models/Note";
+import { NoteCard } from "../NoteCard/NoteCard";
 import "./NotesBoard.css";
 
-export function NotesBoard() {
+interface NoteBoardProps {
+    notes: Note[];
+}
+
+export function NotesBoard({notes}: NoteBoardProps) {
     return (
         <div className="NotesBoard">
-
-			<p>NotesBoard Component</p>
-
+            {notes.map(note => <NoteCard {...note} key={note.id}/>)}
         </div>
     );
 }
