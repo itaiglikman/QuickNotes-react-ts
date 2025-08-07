@@ -1,9 +1,9 @@
-import type { Note } from "../../../Models/Note";
+import type { NoteType } from "../../../Models/Types";
 import { NoteCard } from "../NoteCard/NoteCard";
 import "./NotesBoard.css";
 
 interface NoteBoardProps {
-    notes: Note[];
+    notes: NoteType[];
     onDelete: (id: string) => void;
 }
 

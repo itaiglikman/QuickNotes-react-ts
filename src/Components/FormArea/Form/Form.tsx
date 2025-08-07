@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from "react";
-import { type Note } from "../../../Models/Note";
-import formUtils from "../../../Utils/formUtils";
+import { type NoteType } from "../../../Models/Types";
+
 import "./Form.css";
+import {formUtils} from "../../../Utils/formUtils";
 
 // maybe will be used in modal
 // interface FormType{
@@ -9,7 +10,7 @@ import "./Form.css";
 // }
 
 interface FormProps {
-    onAddNote: (note: Note) => void;
+    onAddNote: (note: NoteType) => void;
 }
 
 export function Form({ onAddNote }: FormProps) {

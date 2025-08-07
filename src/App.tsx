@@ -3,7 +3,7 @@ import "./App.css";
 import { Form } from "./Components/FormArea/Form/Form";
 import { NotesBoard } from "./Components/NotesArea/NotesBoard/NotesBoard";
 import { SearchBar } from "./Components/SearchArea/SearchBar/SearchBar";
-import type { Note } from "./Models/Note";
+import type { NoteType } from "./Models/Types";
 // import { FormModal } from "./Components/FormArea/Modal/FormModal";
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
@@ -32,7 +32,7 @@ function App() {
     // ];
 
     const [opened, { open, close }] = useDisclosure(false);
-    const [notes, setNotes] = useState<Note[]>([]);
+    const [notes, setNotes] = useState<NoteType[]>([]);
 
     useEffect(() => {
         const localStorageNotes = localStorage.getItem('notes');
@@ -41,7 +41,7 @@ function App() {
     }, [])
 
 
-    function handleAddNote(newNote: Note): void {
+    function handleAddNote(newNote: NoteType): void {
         setNotes([...notes, newNote]);
     }
 
