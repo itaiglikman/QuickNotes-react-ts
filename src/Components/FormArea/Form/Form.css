@@ -1,0 +1,51 @@
+.Form {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 2rem;
+  width: 50%;
+  min-width: 300px;
+  max-width: 500px;
+  margin: 0 auto 2rem auto ; 
+}
+
+.Form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.Form input[type="text"],
+.Form textarea {
+  padding: 0.7rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.Form textarea {
+  min-height: 80px;
+}
+
+.Form button {
+  align-self: flex-end;
+  background: #38a169;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.Form button:hover {
+  background: #2f855a;
+}
