@@ -1,9 +1,9 @@
-import type { Note } from "../../../Models/Note";
+import { categoriesColor, type Note } from "../../../Models/Note";
 import "./NoteCard.css";
 
 interface NoteCardProps {
     note: Note;
-    onDelete: (id: string) => void
+    onDelete: (id: string) => void;
 }
 
 export function NoteCard({ note, onDelete }: NoteCardProps) {
@@ -13,22 +13,24 @@ export function NoteCard({ note, onDelete }: NoteCardProps) {
         if (confirm(`Are you sure?`)) onDelete(id);
     }
 
+    function getCategoryColor(): string | undefined {
+        return category ? categoriesColor[category] : undefined;
+    }
+
     return (
-        <div className="NoteCard" id={id}>
-            {title &&
-                <h3>{title}</h3>}
+        <div
+            className={`NoteCard`}
+            style={{ backgroundColor: getCategoryColor() }}
+            id={id}
+        >
+            {title && <h3>{title}</h3>}
             <div className="card-content">{content}</div>
-            <div className="card-date">{created.toLocaleString()}</div>
+            {category && <div>{category}</div>}
+            <div className="card-date">created {created}</div>
             {updated &&
-                <div className="card-date">{created.toLocaleString()}</div>}
-            {category &&
-                <div>{category}</div>}
-            {done &&
-                <div>{done}</div>}
-            <button
-                className="delete-btn"
-                onClick={handleDelete}
-                title="Delete">
+                <div className="card-date">{updated}</div>}
+            {done && <div>{done}</div>}
+            <button className="delete-btn" onClick={handleDelete} title="Delete">
                 &times;
             </button>
         </div>
