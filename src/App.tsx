@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Form } from "./Components/FormArea/Form/Form";
 import { NotesBoard } from "./Components/NotesArea/NotesBoard/NotesBoard";
@@ -10,29 +10,36 @@ import { Modal, Button } from '@mantine/core';
 
 function App() {
 
-    const notesData: Note[] = [
-        {
-            id: "1",
-            title: "Sample Note 1",
-            content: "This is the first mock note for testing.",
-            created: new Date(),
-        },
-        {
-            id: "2",
-            title: "Sample Note 2",
-            content: "This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.",
-            created: new Date(),
-        },
-        {
-            id: "3",
-            title: "Sample Note 3",
-            content: "This is the third mock note for testing.",
-            created: new Date(),
-        }
-    ];
+    // const notesData: Note[] = [
+    //     {
+    //         id: "1",
+    //         title: "Sample Note 1",
+    //         content: "This is the first mock note for testing.",
+    //         created: new Date(),
+    //     },
+    //     {
+    //         id: "2",
+    //         title: "Sample Note 2",
+    //         content: "This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.",
+    //         created: new Date(),
+    //     },
+    //     {
+    //         id: "3",
+    //         title: "Sample Note 3",
+    //         content: "This is the third mock note for testing.",
+    //         created: new Date(),
+    //     }
+    // ];
 
     const [opened, { open, close }] = useDisclosure(false);
-    const [notes, setNotes] = useState<Note[]>(notesData);
+    const [notes, setNotes] = useState<Note[]>([]);
+
+    useEffect(() => {
+        const localStorageNotes = localStorage.getItem('notes');
+        if (localStorageNotes) // display data from local storage
+            setNotes(JSON.parse(localStorageNotes));
+    }, [])
+
 
     function handleAddNote(newNote: Note): void {
         setNotes([...notes, newNote]);
@@ -42,6 +49,7 @@ function App() {
         const noteDup = notes.filter(note => note.id.toString() !== id.toString());
         if (noteDup.length === notes.length) return alert('note not found');
         setNotes(noteDup);
+        localStorage.setItem('notes', JSON.stringify(noteDup)); // update local storage
     }
 
     return (
@@ -65,7 +73,7 @@ function App() {
                     }}
                 >
                     <SearchBar />
-                </Modal> 
+                </Modal>
                 <Button variant="default" onClick={open}>
                     Open modal
                 </Button>
@@ -74,7 +82,10 @@ function App() {
 
                 <SearchBar />
                 <Form onAddNote={handleAddNote} />
-                <NotesBoard notes={notes} onDelete={handleRemoveNote} />
+                {notes.length
+                    ? <NotesBoard notes={notes} onDelete={handleRemoveNote} />
+                    : <div>No notes yet</div>
+                }
                 <footer>
                     itai glikman
                 </footer>
