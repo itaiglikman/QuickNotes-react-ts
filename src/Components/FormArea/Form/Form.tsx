@@ -7,26 +7,35 @@ import type { Note } from "../../../Models/Note";
 //     noteToUpdate:Note;
 // }
 
-export function Form() {
+interface FormProps {
+    onAddNote: (note: Note) => void;
+}
+
+export function Form({ onAddNote }: FormProps) {
     const [inputTitle, setInputTitle] = useState<string>('');
     const [inputContent, setInputContent] = useState<string>('');
-    const [contentErrMsg, setContentErrMsg] = useState('');
+    const [contentErrMsg, setContentErrMsg] = useState<string>('');
 
     function handleSubmit(event: FormEvent): void {
-        event.preventDefault();
-        validateContent(inputContent);
-        const note = createNewNote(inputContent, inputTitle);
-        console.log(note);
-        setInputTitle('');
+        event.preventDefault(); // dont refresh on submit
+        if(!validateContent(inputContent)) return; // display error
+        const newNote = createNewNote(inputContent, inputTitle);
+        onAddNote(newNote); // send new note to app
+        emptyFields();
+    }
+
+    function emptyFields() {
+        setInputTitle(''); 
         setInputContent('');
     }
 
-    function validateContent(content: string): void {
+    function validateContent(content: string): boolean {
         if (content === '') {
             setContentErrMsg('no content');
-            return;
+            return false;
         }
         setContentErrMsg('');
+        return true;
     }
 
     function createNewNote(content: string, title?: string): Note {
