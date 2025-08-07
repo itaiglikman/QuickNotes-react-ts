@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import "./Form.css";
-import type { Note } from "../../../Models/Note";
+import { categoriesColor, type CategoryType, type Note } from "../../../Models/Note";
 
 // maybe will be used in modal
 // interface FormType{
@@ -14,18 +14,28 @@ interface FormProps {
 export function Form({ onAddNote }: FormProps) {
     const [inputTitle, setInputTitle] = useState<string>('');
     const [inputContent, setInputContent] = useState<string>('');
+    const [inputCategory, setInputCategory] = useState<string>('');
     const [contentErrMsg, setContentErrMsg] = useState<string>('');
 
+
     function handleSubmit(event: FormEvent): void {
-        event.preventDefault(); // dont refresh on submit
-        if(!validateContent(inputContent)) return; // display error
-        const newNote = createNewNote(inputContent, inputTitle);
+        event.preventDefault(); // don't refresh on submit
+        if (!validateContent(inputContent)) return; // display error
+        const newNote = createNewNote(inputContent, inputTitle, inputCategory);
+        console.log(newNote);
         onAddNote(newNote); // send new note to app
+        addToLocalStorage(newNote); // add note to local storage
         emptyFields();
     }
 
+    function addToLocalStorage(note: Note): void {
+        const notes = JSON.parse(localStorage.getItem('notes') || '[]');
+        notes.push(note);
+        localStorage.setItem('notes', JSON.stringify(notes));
+    }
+
     function emptyFields() {
-        setInputTitle(''); 
+        setInputTitle('');
         setInputContent('');
     }
 
@@ -38,8 +48,9 @@ export function Form({ onAddNote }: FormProps) {
         return true;
     }
 
-    function createNewNote(content: string, title?: string): Note {
-        return { id: crypto.randomUUID(), title, content, created: new Date() };
+    function createNewNote(content: string, title?: string, strCategory?: string): Note {
+        const category = strCategory as CategoryType;
+        return { id: crypto.randomUUID(), title, content, created: new Date(), category };
     }
 
     return (
@@ -59,6 +70,13 @@ export function Form({ onAddNote }: FormProps) {
                         onChange={(e) => setInputContent(e.target.value)}
                         placeholder="Write here your new note "
                     />
+                    {/* <select name="categorySelect" id="" onSelect={handleSelect}> */}
+                    <select name="categorySelect" value={inputCategory} onChange={(e) => setInputCategory(e.target.value)}>
+                        <option value="" disabled>Choose category</option>
+                        {Object.keys(categoriesColor).map(c => (
+                            <option value={c}>{c}</option>
+                        ))}.
+                    </select>
                     {contentErrMsg &&
                         <div className="err-msg">{contentErrMsg}</div>}
                 </div>
