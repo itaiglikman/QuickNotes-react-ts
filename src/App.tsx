@@ -4,6 +4,9 @@ import { Form } from "./Components/FormArea/Form/Form";
 import { NotesBoard } from "./Components/NotesArea/NotesBoard/NotesBoard";
 import { SearchBar } from "./Components/SearchArea/SearchBar/SearchBar";
 import type { Note } from "./Models/Note";
+import { FormModal } from "./Components/FormArea/Modal/FormModal";
+import { useDisclosure } from '@mantine/hooks';
+import { Modal, Button } from '@mantine/core';
 
 function App() {
 
@@ -28,6 +31,7 @@ function App() {
         }
     ];
 
+    const [opened, { open, close }] = useDisclosure(false);
     const [notes, setNotes] = useState<Note[]>(notesData);
 
     function handleAddNote(newNote: Note): void {
@@ -41,17 +45,41 @@ function App() {
     }
 
     return (
-        <div className="App">
-            <header>
-                <h1>Quick Notes</h1>
-            </header>
-            <SearchBar />
-            <Form onAddNote={handleAddNote} />
-            <NotesBoard notes={notes} onDelete={handleRemoveNote} />
-            <footer>
-                itai glikman
-            </footer>
-        </div>
+        <>
+            <div className="App">
+
+                {/* <Modal opened={opened} onClose={close} title="Authentication">
+                <div>my modal</div>
+            </Modal> */}
+
+                <header>
+                    <h1>Quick Notes</h1>
+                </header>
+                <Modal
+                    opened={opened}
+                    onClose={close}
+                    title="Authentication"
+                    overlayProps={{
+                        backgroundOpacity: 0.55,
+                        blur: 3,
+                    }}
+                >
+                    <SearchBar />
+                </Modal> 
+                <Button variant="default" onClick={open}>
+                    Open modal
+                </Button>
+
+
+
+                <SearchBar />
+                <Form onAddNote={handleAddNote} />
+                <NotesBoard notes={notes} onDelete={handleRemoveNote} />
+                <footer>
+                    itai glikman
+                </footer>
+            </div>
+        </>
     );
 }
 
