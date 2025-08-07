@@ -1,3 +1,51 @@
 .NoteCard {
-	
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 1.2rem;
+  padding-top: 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 250px;
+  width: 300px;
+  max-width: 100%;
+  flex: 0 1 300px;
+}
+
+.NoteCard .card-content {
+  flex: 1;
+  overflow: auto;
+  margin-bottom: 0.5rem;
+  word-break: break-word;
+}
+
+.NoteCard h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.NoteCard .card-date {
+  font-size: 0.85rem;
+  color: #718096;
+  margin-top: 0.5rem;
+}
+
+.NoteCard .delete-btn {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  background: transparent;
+  border: none;
+  color: #e53e3e;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.NoteCard .delete-btn:hover {
+  color: #c53030;
 }
