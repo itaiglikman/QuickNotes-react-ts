@@ -1,13 +1,13 @@
+import { useState } from "react";
 import "./App.css";
 import { Form } from "./Components/FormArea/Form/Form";
-import { NoteCard } from "./Components/NotesArea/NoteCard/NoteCard";
 import { NotesBoard } from "./Components/NotesArea/NotesBoard/NotesBoard";
 import { SearchBar } from "./Components/SearchArea/SearchBar/SearchBar";
 import type { Note } from "./Models/Note";
 
 function App() {
 
-    const notes: Note[] = [
+    const notesData: Note[] = [
         {
             id: "1",
             title: "Sample Note 1",
@@ -28,14 +28,26 @@ function App() {
         }
     ];
 
+    const [notes, setNotes] = useState<Note[]>(notesData);
+
+    function handleAddNote(newNote: Note): void {
+        setNotes([...notes, newNote]);
+    }
+
+    function handleRemoveNote(id: string): void {
+        const noteDup = notes.filter(note => note.id.toString() !== id.toString());
+        if (noteDup.length === notes.length) return alert('note not found');
+        setNotes(noteDup);
+    }
+
     return (
         <div className="App">
             <header>
                 <h1>Quick Notes</h1>
             </header>
             <SearchBar />
-            <Form />
-            <NotesBoard notes={notes} />
+            <Form onAddNote={handleAddNote} />
+            <NotesBoard notes={notes} onDelete={handleRemoveNote} />
             <footer>
                 itai glikman
             </footer>
