@@ -49,3 +49,13 @@
 .Form button:hover {
   background: #2f855a;
 }
+
+.err-msg {
+  color: #e53e3e;
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
