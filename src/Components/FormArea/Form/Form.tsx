@@ -50,7 +50,7 @@ export function Form({ onAddNote }: FormProps) {
 
     function createNewNote(content: string, title?: string, strCategory?: string): Note {
         const category = strCategory as CategoryType;
-        return { id: crypto.randomUUID(), title, content, created: new Date(), category };
+        return { id: crypto.randomUUID(), title, content, created: (new Date()).toLocaleString(), category };
     }
 
     return (

@@ -2,8 +2,10 @@ export interface Note {
     id: string;
     title?: string;
     content: string;
-    created: Date;
-    updated?: Date;
+    created: string;
+    updated?: string;
+    // created: Date;
+    // updated?: Date;
     category?: CategoryType;
     done?: boolean;
 }

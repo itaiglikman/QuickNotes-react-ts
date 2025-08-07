@@ -26,9 +26,9 @@ export function NoteCard({ note, onDelete }: NoteCardProps) {
             {title && <h3>{title}</h3>}
             <div className="card-content">{content}</div>
             {category && <div>{category}</div>}
-            <div className="card-date">created {created.toISOString()}</div>
+            <div className="card-date">created {created}</div>
             {updated &&
-                <div className="card-date">{updated.toDateString()}</div>}
+                <div className="card-date">{updated}</div>}
             {done && <div>{done}</div>}
             <button className="delete-btn" onClick={handleDelete} title="Delete">
                 &times;
