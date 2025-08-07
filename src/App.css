@@ -1,0 +1,35 @@
+.App {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* .App > * {
+  border: 1px solid;
+} */
+
+header {
+  text-align: center;
+  padding-bottom: 1.5rem;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #2d3748;
+  margin: 0;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem 0;
+  color: #888;
+  font-size: 1rem;
+  border-top: 1px solid #e2e8f0;
+  margin-top: auto;
+}
