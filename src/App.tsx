@@ -4,7 +4,7 @@ import { Form } from "./Components/FormArea/Form/Form";
 import { NotesBoard } from "./Components/NotesArea/NotesBoard/NotesBoard";
 import { SearchBar } from "./Components/SearchArea/SearchBar/SearchBar";
 import type { Note } from "./Models/Note";
-import { FormModal } from "./Components/FormArea/Modal/FormModal";
+// import { FormModal } from "./Components/FormArea/Modal/FormModal";
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 
