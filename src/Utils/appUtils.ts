@@ -25,6 +25,10 @@ function searchNote(query: string, notes: NoteType[]): (NoteType[]) {
     );
 }
 
+function filterByCategory(category: string, notes: NoteType[]): (NoteType[] | []) {
+    return notes.filter(note => note.category === category);
+}
+
 export const appUtils = {
-    addNote, removeNote, searchNote
+    addNote, removeNote, searchNote,filterByCategory,
 }

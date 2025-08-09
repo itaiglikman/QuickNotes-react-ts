@@ -5,10 +5,10 @@ import { NotesBoard } from "./Components/NotesArea/NotesBoard/NotesBoard";
 import { SearchBar } from "./Components/SearchArea/SearchBar/SearchBar";
 import type { NoteType } from "./Models/Types";
 // import { FormModal } from "./Components/FormArea/Modal/FormModal";
+import { Button, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button } from '@mantine/core';
-import { dataUtils } from "./Utils/dataUtils";
 import { appUtils } from "./Utils/appUtils";
+import { dataUtils } from "./Utils/dataUtils";
 
 function App() {
 
@@ -49,8 +49,13 @@ function App() {
      * display search results
      */
     function handleSearch(query: string) {
-        const searchResults = appUtils.searchNote(query,notes);
+        const searchResults = appUtils.searchNote(query, notes);
         setDisplayedNotes(searchResults);
+    }
+
+    function handleFilter(category: string) {
+        const filterResults = appUtils.filterByCategory(category, notes);
+        setDisplayedNotes(filterResults);
     }
 
     return (
@@ -77,7 +82,11 @@ function App() {
                 Open modal
             </Button>
 
-            <SearchBar onSearch={handleSearch} />
+            {/* <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginBottom: "2rem" }}> */}
+            <SearchBar onSearch={handleSearch} onFilter={handleFilter} />
+            {/* <Filters /> */}
+            {/* </div> */}
+            {/* <SearchBar onSearch={handleSearch} /> */}
             <Form onAddNote={handleAddNote} />
             {displayedNotes.length
                 ? <NotesBoard notes={displayedNotes} onDelete={handleRemoveNote} />
