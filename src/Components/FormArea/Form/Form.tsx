@@ -2,7 +2,9 @@ import { useState, type FormEvent } from "react";
 import { type NoteType } from "../../../Models/Types";
 
 import "./Form.css";
-import {formUtils} from "../../../Utils/formUtils";
+import { formUtils } from "../../../Utils/formUtils";
+import { Filters } from "../../SearchArea/Filters/Filters";
+import { Categories } from "../../Categories/Categories";
 
 // maybe will be used in modal
 // interface FormType{
@@ -36,6 +38,10 @@ export function Form({ onAddNote }: FormProps) {
         setContentErrMsg('');
     }
 
+    function handleCategory(category: string) {
+        setInputCategory(category);
+    }
+
     return (
         <div className="Form">
             <form onSubmit={handleSubmit}>
@@ -53,16 +59,13 @@ export function Form({ onAddNote }: FormProps) {
                         onChange={(e) => setInputContent(e.target.value)}
                         placeholder="Write here your new note "
                     />
-                    <select name="categorySelect" value={inputCategory} onChange={(e) => setInputCategory(e.target.value)}>
-                        <option value="" disabled>Choose category</option>
-                        {formUtils.categoriesColors.map(c => (
-                            <option value={c} key={c}>{c}</option>
-                        ))}.
-                    </select>
                     {contentErrMsg &&
                         <div className="err-msg">{contentErrMsg}</div>}
+                    <div className="form-bottom">
+                        <Categories onSelect={handleCategory} />
+                        <button>Create</button>
+                    </div>
                 </div>
-                <button>Create</button>
             </form>
         </div>
     );
