@@ -1,8 +1,8 @@
-import { categoriesColor, type Note } from "../../../Models/Note";
+import { categoriesColor, type NoteType } from "../../../Models/Types";
 import "./NoteCard.css";
 
 interface NoteCardProps {
-    note: Note;
+    note: NoteType;
     onDelete: (id: string) => void;
 }
 

@@ -1,11 +1,9 @@
-export interface Note {
+export interface NoteType {
     id: string;
     title?: string;
     content: string;
     created: string;
     updated?: string;
-    // created: Date;
-    // updated?: Date;
     category?: CategoryType;
     done?: boolean;
 }

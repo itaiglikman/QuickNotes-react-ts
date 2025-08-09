@@ -3,94 +3,90 @@ import "./App.css";
 import { Form } from "./Components/FormArea/Form/Form";
 import { NotesBoard } from "./Components/NotesArea/NotesBoard/NotesBoard";
 import { SearchBar } from "./Components/SearchArea/SearchBar/SearchBar";
-import type { Note } from "./Models/Note";
+import type { NoteType } from "./Models/Types";
 // import { FormModal } from "./Components/FormArea/Modal/FormModal";
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
+import { dataUtils } from "./Utils/dataUtils";
+import { appUtils } from "./Utils/appUtils";
 
 function App() {
 
-    // const notesData: Note[] = [
-    //     {
-    //         id: "1",
-    //         title: "Sample Note 1",
-    //         content: "This is the first mock note for testing.",
-    //         created: new Date(),
-    //     },
-    //     {
-    //         id: "2",
-    //         title: "Sample Note 2",
-    //         content: "This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.This is the second mock note for testing.",
-    //         created: new Date(),
-    //     },
-    //     {
-    //         id: "3",
-    //         title: "Sample Note 3",
-    //         content: "This is the third mock note for testing.",
-    //         created: new Date(),
-    //     }
-    // ];
-
     const [opened, { open, close }] = useDisclosure(false);
-    const [notes, setNotes] = useState<Note[]>([]);
+    const [notes, setNotes] = useState<NoteType[]>([]); // the single truth
+    const [displayedNotes, setDisplayedNotes] = useState<NoteType[]>([]); // notes to display
 
+    // set notes on component mount:
     useEffect(() => {
-        const localStorageNotes = localStorage.getItem('notes');
-        if (localStorageNotes) // display data from local storage
-            setNotes(JSON.parse(localStorageNotes));
+        const storedNotes = dataUtils.getStorageNotes();
+        setNotes(storedNotes);;
     }, [])
 
+    // update displayNotes when notes change:
+    useEffect(() => {
+        setDisplayedNotes(notes);
+    }, [notes])
 
-    function handleAddNote(newNote: Note): void {
-        setNotes([...notes, newNote]);
+
+    /** add new note
+     * get the updated notes and update state*/
+    function handleAddNote(newNote: NoteType): void {
+        const newNotes = appUtils.addNote(newNote, notes);
+        setNotes(newNotes); // update state
     }
 
+    /**
+     * filer unwanted note
+     * update storage and state
+     */
     function handleRemoveNote(id: string): void {
-        const noteDup = notes.filter(note => note.id.toString() !== id.toString());
-        if (noteDup.length === notes.length) return alert('note not found');
-        setNotes(noteDup);
-        localStorage.setItem('notes', JSON.stringify(noteDup)); // update local storage
+        const updatedNotes = appUtils.removeNote(id, notes);
+        updatedNotes.length ? setNotes(updatedNotes) : alert('note not found');
+    }
+
+    /**
+     * filter notes by query
+     * display search results
+     */
+    function handleSearch(query: string) {
+        const searchResults = appUtils.searchNote(query,notes);
+        setDisplayedNotes(searchResults);
     }
 
     return (
-        <>
-            <div className="App">
+        <div className="App">
 
-                {/* <Modal opened={opened} onClose={close} title="Authentication">
+            {/* <Modal opened={opened} onClose={close} title="Authentication">
                 <div>my modal</div>
             </Modal> */}
 
-                <header>
-                    <h1>Quick Notes</h1>
-                </header>
-                <Modal
-                    opened={opened}
-                    onClose={close}
-                    title="Authentication"
-                    overlayProps={{
-                        backgroundOpacity: 0.55,
-                        blur: 3,
-                    }}
-                >
-                    <SearchBar />
-                </Modal>
-                <Button variant="default" onClick={open}>
-                    Open modal
-                </Button>
+            <header>
+                <h1>Quick Notes</h1>
+            </header>
+            <Modal
+                opened={opened}
+                onClose={close}
+                title="Authentication"
+                overlayProps={{
+                    backgroundOpacity: 0.55,
+                    blur: 3,
+                }}
+            >
+            </Modal>
+            <Button variant="default" onClick={open}>
+                Open modal
+            </Button>
 
-
-
-                <SearchBar />
-                <Form onAddNote={handleAddNote} />
-                {notes.length
-                    ? <NotesBoard notes={notes} onDelete={handleRemoveNote} />
-                    : <div>No notes yet</div>
-                }
-                <footer>
-                    itai glikman
-                </footer>
-            </div>
-        </>
+            <SearchBar onSearch={handleSearch} />
+            <Form onAddNote={handleAddNote} />
+            {displayedNotes.length
+                ? <NotesBoard notes={displayedNotes} onDelete={handleRemoveNote} />
+                : <div>No notes found</div>
+            }
+            <footer>
+                itai glikman
+            </footer>
+        </div>
     );
 }
 
