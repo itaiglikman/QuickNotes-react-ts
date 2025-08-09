@@ -26,7 +26,6 @@ export function Form({ onAddNote }: FormProps) {
         if (errMsg.length > 0) return setContentErrMsg(errMsg); // display error
         const newNote = formUtils.createNewNote(inputContent, inputTitle, inputCategory);
         onAddNote(newNote); // send new note to app
-        formUtils.addToLocalStorage(newNote); // add note to local storage
         emptyFields();
     }
 
