@@ -125,7 +125,7 @@ src/
 
 ## ✨ Author
 
-itai glikman
+Itai Glikman
 
 ---
 
@@ -135,4 +135,4 @@ MIT
 
 ---
 
-Enjoy using **QuickNotes** and boost your
+Enjoy using **QuickNotes** and boost your productivity!
