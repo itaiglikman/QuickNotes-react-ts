@@ -24,9 +24,9 @@ function getUpdatedNotesAfterSubmit(note: NoteType, notes: NoteType[]): NoteType
 }
 
 // return notes without unwanted note
-function removeNote(id: string, notes: NoteType[]): (NoteType[] | []) {
-    const notesDup = notes.filter(note => note.id.toString() !== id.toString());
-    if (notesDup.length === notes.length) return [];
+function removeNote(id: string, notes: NoteType[]): (NoteType[]) {
+    const notesDup = notes.filter(note => note.id !== id);
+    if (notesDup.length === notes.length) throw 'Note to delete was not found!';
     dataUtils.setStorageNotes(notesDup); // update local storage
     return notesDup;
 }

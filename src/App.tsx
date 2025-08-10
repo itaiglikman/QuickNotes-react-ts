@@ -15,7 +15,7 @@ function App() {
     // set notes on component mount:
     useEffect(() => {
         const storedNotes = dataUtils.getStorageNotes();
-        setNotes(storedNotes);;
+        setNotes(storedNotes);
     }, [])
 
     // update displayNotes when notes change:
@@ -36,8 +36,12 @@ function App() {
      * update storage and state
      */
     function handleRemoveNote(id: string): void {
-        const updatedNotes = appUtils.removeNote(id, notes);
-        updatedNotes.length ? setNotes(updatedNotes) : alert('note not found');
+        try {
+            const updatedNotes = appUtils.removeNote(id, notes);
+            setNotes(updatedNotes)
+        } catch (error: any) {
+            alert(error) // throw error when note id was not found
+        }
     }
 
     /**
