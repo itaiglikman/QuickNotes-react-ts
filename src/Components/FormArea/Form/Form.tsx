@@ -63,8 +63,8 @@ export function Form({ onFormSubmit, onModalClose, noteToUpdate }: FormProps) {
                         <div className="err-msg">{contentErrMsg}</div>}
                     <div className="form-bottom">
                         <Categories
+                            selectedValue={inputCategory}
                             onSelect={handleCategory}
-                            existingCategory={inputCategory}
                         />
                         <button>{noteToUpdate ? 'Update' : 'Create'}</button>
                     </div>

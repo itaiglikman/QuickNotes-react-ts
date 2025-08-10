@@ -9,18 +9,19 @@ interface SearchBarProps {
 export function SearchBar({ onSearch, onFilter }: SearchBarProps) {
 
     const [searchValue, setSearchValue] = useState<string>('');
+    const [categoryValue, setCategoryValue] = useState<string>('');
 
     useEffect(() => {
         setSearchValue('');
     }, [])
 
-
     function handleClick() {
-        if (!searchValue.length) return console.log('no search');
+        if (!searchValue.length) throw alert('no search');
         onSearch(searchValue);
     }
 
     function handleFilter(category: string) {
+        setCategoryValue(category);
         onFilter(category);
     }
 
@@ -30,7 +31,9 @@ export function SearchBar({ onSearch, onFilter }: SearchBarProps) {
                 value={searchValue}
                 onChange={e => setSearchValue(e.target.value)}
                 placeholder="Search notes" />
-            <Categories onSelect={handleFilter} />
+            <Categories
+                onSelect={handleFilter}
+                selectedValue={categoryValue} />
             <button onClick={handleClick}>search</button>
         </div>
     );
