@@ -9,8 +9,12 @@ import { dataUtils } from "./Utils/dataUtils";
 
 function App() {
 
-    const [notes, setNotes] = useState<NoteType[]>([]); // the single truth
-    const [displayedNotes, setDisplayedNotes] = useState<NoteType[]>([]); // notes to display
+    const [notes, setNotes] = useState<NoteType[]>([]); // the single source of truth
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [filterCategory, setFilterCategory] = useState('');
+
+    // display related to the main data source:
+    let displayedNotes: NoteType[] = notes;
 
     // set notes on component mount:
     useEffect(() => {
@@ -18,11 +22,12 @@ function App() {
         setNotes(storedNotes);
     }, [])
 
-    // update displayNotes when notes change:
-    useEffect(() => {
-        setDisplayedNotes(notes);
-    }, [notes])
+    const handleCategoryFilter = () => appUtils.filterByCategory(filterCategory, displayedNotes);
+    const handleSearch = () => appUtils.searchNote(searchQuery, displayedNotes);
 
+    // display filters on state change:
+    if (filterCategory) displayedNotes = handleCategoryFilter();
+    if (searchQuery) displayedNotes = handleSearch();
 
     /** add new note
      * get the updated notes and update state*/
@@ -44,31 +49,23 @@ function App() {
         }
     }
 
-    /**
-     * filter notes by query
-     * display search results
-     */
-    function handleSearch(query: string) {
-        const searchResults = appUtils.searchNote(query, notes);
-        setDisplayedNotes(searchResults);
-    }
-
-    function handleCategoryFilter(category: string) {
-        const filterResults = appUtils.filterByCategory(category, notes);
-        setDisplayedNotes(filterResults);
-    }
-
     return (
         <div className="App">
             <header>
                 <h1>Quick Notes</h1>
             </header>
 
-            <SearchBar onSearch={handleSearch} onFilter={handleCategoryFilter} />
+            <SearchBar
+                onSearch={query => setSearchQuery(query)}
+                onFilter={category => setFilterCategory(category)} />
             <Form onFormSubmit={handleFormSubmit} />
 
-            {displayedNotes.length
-                ? <NotesBoard notes={displayedNotes} onDelete={handleRemoveNote} onFormSubmit={handleFormSubmit} />
+            {displayedNotes &&
+                displayedNotes.length
+                ? <NotesBoard
+                    notes={displayedNotes}
+                    onDelete={handleRemoveNote}
+                    onFormSubmit={handleFormSubmit} />
                 : <div>No notes found</div>
             }
 
