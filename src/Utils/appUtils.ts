@@ -15,6 +15,14 @@ function updateNotes(note: NoteType, noteIndex: number, notes: NoteType[]) {
     return newNotes;
 }
 
+function getUpdatedNotesAfterSubmit(note: NoteType, notes: NoteType[]): NoteType[] {
+    const noteIndex = notes.findIndex(n => n.id === note.id)
+    const newNotes = noteIndex === -1
+        ? addNote(note, notes)
+        : updateNotes(note, noteIndex, notes)
+    return newNotes;
+}
+
 // return notes without unwanted note
 function removeNote(id: string, notes: NoteType[]): (NoteType[] | []) {
     const notesDup = notes.filter(note => note.id.toString() !== id.toString());
@@ -37,5 +45,8 @@ function filterByCategory(category: string, notes: NoteType[]): (NoteType[] | []
 }
 
 export const appUtils = {
-    addNote, updateNotes, removeNote, searchNote, filterByCategory,
+    getUpdatedNotesAfterSubmit,
+    removeNote,
+    searchNote,
+    filterByCategory,
 }

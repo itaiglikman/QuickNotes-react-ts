@@ -4,15 +4,11 @@ import { Form } from "./Components/FormArea/Form/Form";
 import { NotesBoard } from "./Components/NotesArea/NotesBoard/NotesBoard";
 import { SearchBar } from "./Components/SearchArea/SearchBar/SearchBar";
 import type { NoteType } from "./Models/Types";
-// import { FormModal } from "./Components/FormArea/Modal/FormModal";
-import { Button, Modal } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { appUtils } from "./Utils/appUtils";
 import { dataUtils } from "./Utils/dataUtils";
 
 function App() {
 
-    const [opened, { open, close }] = useDisclosure(false);
     const [notes, setNotes] = useState<NoteType[]>([]); // the single truth
     const [displayedNotes, setDisplayedNotes] = useState<NoteType[]>([]); // notes to display
 
@@ -30,8 +26,8 @@ function App() {
 
     /** add new note
      * get the updated notes and update state*/
-    function handleAddNote(newNote: NoteType): void {
-        const newNotes = appUtils.addNote(newNote, notes);
+    function handleFormSubmit(note: NoteType): void {
+        const newNotes = appUtils.getUpdatedNotesAfterSubmit(note, notes);
         setNotes(newNotes); // update state
     }
 
@@ -53,45 +49,25 @@ function App() {
         setDisplayedNotes(searchResults);
     }
 
-    function handleFilter(category: string) {
+    function handleCategoryFilter(category: string) {
         const filterResults = appUtils.filterByCategory(category, notes);
         setDisplayedNotes(filterResults);
     }
 
     return (
         <div className="App">
-
-            {/* <Modal opened={opened} onClose={close} title="Authentication">
-                <div>my modal</div>
-            </Modal> */}
-
             <header>
                 <h1>Quick Notes</h1>
             </header>
-            <Modal
-                opened={opened}
-                onClose={close}
-                title="Authentication"
-                overlayProps={{
-                    backgroundOpacity: 0.55,
-                    blur: 3,
-                }}
-            >
-            </Modal>
-            <Button variant="default" onClick={open}>
-                Open modal
-            </Button>
 
-            {/* <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginBottom: "2rem" }}> */}
-            <SearchBar onSearch={handleSearch} onFilter={handleFilter} />
-            {/* <Filters /> */}
-            {/* </div> */}
-            {/* <SearchBar onSearch={handleSearch} /> */}
-            <Form onAddNote={handleAddNote} />
+            <SearchBar onSearch={handleSearch} onFilter={handleCategoryFilter} />
+            <Form onFormSubmit={handleFormSubmit} />
+
             {displayedNotes.length
-                ? <NotesBoard notes={displayedNotes} onDelete={handleRemoveNote} />
+                ? <NotesBoard notes={displayedNotes} onDelete={handleRemoveNote} onFormSubmit={handleFormSubmit} />
                 : <div>No notes found</div>
             }
+
             <footer>
                 itai glikman
             </footer>
