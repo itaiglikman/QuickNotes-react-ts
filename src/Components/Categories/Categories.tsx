@@ -1,14 +1,15 @@
-import "./Categories.css";
-import { categoriesColor, type CategoryType } from "../../Models/Types";
 import { useState } from "react";
+import { categoriesColor, type CategoryType } from "../../Models/Types";
+import "./Categories.css";
 
 interface CategoriesProps {
     onSelect: (category: string) => void;
+    existingCategory?: string;
 }
 
-export function Categories({ onSelect }: CategoriesProps) {
+export function Categories({ onSelect, existingCategory }: CategoriesProps) {
 
-    const [selectValue, setSelectValue] = useState<string>('');
+    const [selectValue, setSelectValue] = useState<string>(existingCategory ? existingCategory : '');
 
     function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
         const select = event.target.value;
