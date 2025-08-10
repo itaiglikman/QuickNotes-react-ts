@@ -1,20 +1,16 @@
-import { useState } from "react";
 import { categoriesColor, type CategoryType } from "../../Models/Types";
 import "./Categories.css";
 
 interface CategoriesProps {
     onSelect: (category: string) => void;
-    existingCategory?: string;
+    selectedValue: string;
 }
 
-export function Categories({ onSelect, existingCategory }: CategoriesProps) {
-
-    const [selectValue, setSelectValue] = useState<string>(existingCategory ? existingCategory : '');
+export function Categories({ selectedValue, onSelect }: CategoriesProps) {
 
     function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
-        const select = event.target.value;
-        setSelectValue(select);
-        onSelect(select);
+        selectedValue = event.target.value;
+        onSelect(selectedValue);
     }
 
     const categoriesColors = Object.keys(categoriesColor);
@@ -27,9 +23,9 @@ export function Categories({ onSelect, existingCategory }: CategoriesProps) {
     return (
         <div className="Categories">
             <select className="category-dropdown"
-                value={selectValue}
+                value={selectedValue}
                 onChange={handleSelect}
-                style={{ backgroundColor: getColor(selectValue) }}>
+                style={{ backgroundColor: getColor(selectedValue) }}>
                 <option value=''>Categories</option>
                 {categoriesColors.map(category => (
                     <option value={category} key={category}
