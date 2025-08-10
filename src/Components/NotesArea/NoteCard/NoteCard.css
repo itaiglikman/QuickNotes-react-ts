@@ -1,7 +1,7 @@
 .NoteCard {
   background: #fff;
   border-radius: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   padding: 1.2rem;
   padding-top: 1.5rem;
   position: relative;
@@ -34,10 +34,15 @@
   margin-top: 0.5rem;
 }
 
-.NoteCard .delete-btn {
+.NoteCard .btn-area {
   position: absolute;
   top: 0.7rem;
   right: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.NoteCard .delete-btn {
   background: transparent;
   border: none;
   color: #e53e3e;
@@ -48,4 +53,29 @@
 
 .NoteCard .delete-btn:hover {
   color: #c53030;
+}
+
+.NoteCard .modal-btn {
+  background: transparent;
+  border: none;
+  color: #3182ce;
+  cursor: pointer;
+  transition: color 0.2s;
+  display: flex;
+  padding: 0.2rem;
+}
+
+.NoteCard .modal-btn:hover {
+  color: #2563eb;
+}
+
+.NoteCard .modal-btn,
+.NoteCard .delete-btn {
+  font-size: 1.6rem;
+}
+
+.NoteCard .modal-btn svg,
+.NoteCard .delete-btn svg {
+  width: 1.7rem;
+  height: 1.7rem;
 }
